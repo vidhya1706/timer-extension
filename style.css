@@ -1,0 +1,35 @@
+input {
+  width: 34px;
+}
+button {
+  background-color: #3986e7;
+  border: 1px solid #3986e7;
+  outline: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+.play,
+.pause {
+  border: 0;
+  background: transparent;
+  box-sizing: border-box;
+  width: 0;
+  border-color: transparent transparent transparent #fff;
+  transition: 100ms all ease;
+  cursor: pointer;
+}
+.play {
+  border-style: solid;
+  height: 13px;
+  border-width: 5px 0 7px 11px;
+}
+.pause {
+  border-style: double;
+  border-width: 0px 0 0px 11px;
+  height: 12px;
+}
