@@ -1,10 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="style.css" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Calculator</title>
+    <title>Timer</title>
+    <style>
+      input {
+        width: 34px;
+      }
+      button {
+        background-color: #3986e7;
+        border: 1px solid #3986e7;
+        outline: none;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        margin-top: 10px;
+      }
+      .play,
+      .pause {
+        border: 0;
+        background: transparent;
+        box-sizing: border-box;
+        width: 0;
+        border-color: transparent transparent transparent #fff;
+        transition: 100ms all ease;
+        cursor: pointer;
+      }
+      .play {
+        border-style: solid;
+        height: 13px;
+        border-width: 5px 0 7px 11px;
+      }
+      .pause {
+        border-style: double;
+        border-width: 0px 0 0px 11px;
+        height: 12px;
+      }
+    </style>
   </head>
 
   <body>
@@ -13,27 +50,86 @@
     <input id="seconds" type="number" value="0" /> -->
 
     <div class="countdown-timer">
-      <ul>
-        <li>
-          <span class="hours"></span>
-          <span>HOURS</span>
-        </li>
-        <li>
-          <span class="minutes"></span>
-          <span>MINUTES</span>
-        </li>
-        <li>
-          <span class="seconds"></span>
-          <span>SECONDS</span>
-        </li>
-      </ul>
-      <button class="button" onclick="createTimer()">
+      <span class="hours"></span>:<span class="minutes"></span>:<span
+        class="seconds"
+      ></span>
+      <button class="button" onclick="onClickAction()">
         <div class="action play"></div>
       </button>
-      <!-- <button class="button">
-        <div class="pause"></div>
-      </button> -->
     </div>
-    <script src="index.js"></script>
+    <script>
+      const newHr = 0;
+      const newMin = 0;
+      const newSec = 5;
+
+      setTime(newHr, newMin, newSec);
+
+      let myInterval;
+      let now;
+      let today;
+      let deadline;
+
+      const elem = document.getElementsByClassName("action")?.[0];
+
+      function setTime(h, m, s) {
+        document.querySelector(".hours").innerHTML =
+          h.toString().length > 1 ? h : `0${h}`;
+        document.querySelector(".minutes").innerHTML =
+          m.toString().length > 1 ? m : `0${m}`;
+        document.querySelector(".seconds").innerHTML =
+          s.toString().length > 1 ? s : `0${s}`;
+      }
+
+      function onClearInterval() {
+        clearInterval(myInterval);
+        elem.classList.remove("pause");
+        elem.classList.add("play");
+      }
+
+      function startTimer() {
+        const t = deadline - now;
+        const hours = Math.floor(
+          (t % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        const minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((t % (1000 * 60)) / 1000);
+        if (hours === 0 && minutes === 0 && seconds === 0) {
+          onClearInterval();
+        }
+        setTime(hours, minutes, seconds);
+        now = new Date();
+      }
+
+      function createTimer() {
+        elem.classList.remove("play");
+        elem.classList.add("pause");
+        const today = new Date();
+        const currentYear = today.getFullYear();
+        const currentMonth = today.getMonth();
+        const currentDate = today.getDate();
+        const currentHour = today.getHours();
+        const currentMin = today.getMinutes();
+        const currentSec = today.getSeconds();
+        deadline = new Date(
+          currentYear,
+          currentMonth,
+          currentDate,
+          currentHour + newHr,
+          currentMin + newMin,
+          currentSec + newSec
+        );
+        now = new Date();
+
+        myInterval = setInterval(startTimer, 1000);
+      }
+
+      function onClickAction() {
+        if (elem.classList.contains("play")) {
+          createTimer();
+        } else {
+          onClearInterval();
+        }
+      }
+    </script>
   </body>
 </html>
