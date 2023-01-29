@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "Timer",
+  "description": "Set your timer",
+  "version": "1.0",
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": "icons/48x48.png"
+  }
+}
